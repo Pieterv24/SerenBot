@@ -11,7 +11,13 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  buildFramework: 'netcoreapp2.1'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
+- script: dotnet build --configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) -f $(buildFramework)
   displayName: 'dotnet build $(buildConfiguration)'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: Container
