@@ -16,7 +16,7 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-- script: dotnet publish --configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) -f $(buildFramework)
+- script: dotnet publish --configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)/Publish -f $(buildFramework)
   displayName: 'dotnet publish $(buildConfiguration)'
 - task: CopyFiles@2
   inputs:
