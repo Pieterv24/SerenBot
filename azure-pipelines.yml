@@ -21,7 +21,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     Contents: '**/Dockerfile*'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/Docker'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
