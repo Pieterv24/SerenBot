@@ -20,7 +20,7 @@ steps:
   displayName: 'dotnet publish $(buildConfiguration)'
 - task: CopyFiles@2
   inputs:
-    Contents: '**/DockerFile'
+    Contents: '**/Dockerfile*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
   inputs:
