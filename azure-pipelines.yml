@@ -33,7 +33,7 @@ jobs:
 
 - deployment: Deploy_Bot
   dependsOn: Build_Bot
-  environment: DasBlackBox
+  environment: 'DasBlackBox.dasblackbox'
   strategy:
     runOnce:
       deploy:
