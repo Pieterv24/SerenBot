@@ -5,6 +5,7 @@
 
 trigger:
 - master
+- azure-pipelines
 
 pool:
   vmImage: 'Ubuntu-16.04'
@@ -13,17 +14,28 @@ variables:
   buildConfiguration: 'Release'
   buildFramework: 'netcoreapp2.1'
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-- script: dotnet publish --configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)/Publish -f $(buildFramework)
-  displayName: 'dotnet publish $(buildConfiguration)'
-- task: CopyFiles@2
-  inputs:
-    Contents: '**/Dockerfile*'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: Container
+jobs:
+- job: Build_Bot
+  steps:
+  - script: dotnet build --configuration $(buildConfiguration)
+    displayName: 'dotnet build $(buildConfiguration)'
+  - script: dotnet publish --configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)/Publish -f $(buildFramework)
+    displayName: 'dotnet publish $(buildConfiguration)'
+  - task: CopyFiles@2
+    inputs:
+      Contents: '**/Dockerfile*'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: Container
+
+- deployment: Deploy_Bot
+  dependsOn: Build_Bot
+  environment: DasBlackBox
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+          - script: touch ~/azurewashere
