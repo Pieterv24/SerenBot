@@ -38,5 +38,4 @@ jobs:
     runOnce:
       deploy:
         steps:
-          - script: echo ${Agent.BuildDirectory}
           - script: echo ${Pipeline.Workspace}
