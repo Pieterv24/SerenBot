@@ -38,4 +38,4 @@ jobs:
     runOnce:
       deploy:
         steps:
-          - script: echo myFirstDeployment
+          - script: touch ~/azurewashere
