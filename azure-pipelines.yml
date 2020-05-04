@@ -38,4 +38,4 @@ jobs:
     runOnce:
       deploy:
         steps:
-          - script: echo ${Pipeline.Workspace}
+          - script: ls -la ${Pipeline.Workspace}
