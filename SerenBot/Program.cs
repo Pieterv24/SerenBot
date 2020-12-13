@@ -59,8 +59,20 @@ namespace SerenBot
             serviceCollection.AddOptions();
             serviceCollection.AddLogging();
 
-            serviceCollection.AddDbContextPool<SerenDbContext>(options => 
-                options.UseMySql(Configuration.GetValue<string>("Database:ConnectionString")));
+            string DBType = Configuration.GetValue<string>("Database:DBType");
+
+            switch(DBType.ToUpper())
+            {
+                case "MYSQL":
+                    serviceCollection.AddDbContextPool<SerenDbContext>(options =>
+                        options.UseMySql(Configuration.GetValue<string>("Database:ConnectionString")));
+                    break;
+                case "SQLITE":
+                default:
+                    serviceCollection.AddDbContextPool<SerenDbContext>(options =>
+                        options.UseSqlite(Configuration.GetValue<string>("Database:ConnectionString")));
+                    break;
+            }
 
             serviceCollection.AddTransient<IAuth, TwitterAuth>();
             serviceCollection.AddTransient<IVosService, VosService>();
